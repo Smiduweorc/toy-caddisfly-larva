@@ -23,6 +23,16 @@ While they are not exactly the same, I feel that they are just the same problem 
 - A validator where `pending` is a real outcome
 - A validator with an explicit dependency graph between schema and nodes, computed once when the schema is built, so a change in one field can be translated into "here is the exact set of other things that might now need rechecking" instead of "check everything again, we are fast enough so it is fine."
 
+### Boundaries
+As usual, I will draw the line in the sand and tell what this library is not.
+- This is not a throughput contender. If someone benches this against ArkType (I really like the arktype project), on "validate ten thousand flat objects as fast as possible", this will lose, and I am absolutely fine with that. It will never be competitive by design, only be a pure happy accident, because I can forsee that this is unlikely one.
+- Async Refinements (or lackof) This isn't going to have async refinements. the moment a validation rule needs a round network trip, `pending` gets a second, incompatible meaning, "pending becase the value isn't here" vs "pending the server is not done, pls wait". Reconciling those is a much bigger design problem than I want to take on before the core idea even proves itself. Explicitly deferred, not quietly ignored.
+- No coercion (for now), Whatever comes in is validated as what it claims to be. I might regret this, but who knows?
+- No i18n for error-message ecosystem. I care about the shape of an error (which node, which state, why), not about supplying a hundred pre-translated copies of "this field is required." Someone else can build that layer on top if the shape is good enough to bother
+- Not importing or exporting JSON Schema. Interesting problem, not this problem.
+- Not handling non-JSON types. No `Date`, no `Map`, no `Set`, no `binary`. If a real use case demands one of these later, it gets added deliberately, not by accident.
+- Not trying to be a drop-in Zod replacement. No promise that switching is one import away. If the ergonomics end up similar in places, that's because good ideas converge, not because compatibility was a goal.
+
 ### Lore and art
 So caddisfly larvae are aquatic, worm-like insects, and are sometimes also known as the bagworms of the water. This is because the larva of caddisflies share a similar trait where they will construct a case out of materials in their surroundings. However, here are some differences between how the both of them constructs things.
 
