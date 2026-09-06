@@ -33,6 +33,14 @@ As usual, I will draw the line in the sand and tell what this library is not.
 - Not handling non-JSON types. No `Date`, no `Map`, no `Set`, no `binary`. If a real use case demands one of these later, it gets added deliberately, not by accident.
 - Not trying to be a drop-in Zod replacement. No promise that switching is one import away. If the ergonomics end up similar in places, that's because good ideas converge, not because compatibility was a goal.
 
+### Standards
+If you have been looking at some of my past libraries, you may have noticed that I occasionally reference specific RFC standards in my work. I don't always lean to those RFC standards, but if they are something I feel is a concern, then of course, I'll add that compliance in. That said, some standards I wanna follow are:
+- [StandardSchemaV1](https://standardschema.dev/) I'll implement ~standard.validate() as the one-shot fallback interface. This is table stakes, not a feature. It means the weird session-based core can still slot into tRPC, form libraries, whatever, on day one.
+- [JSON Patch (RFC 6902)](https://www.rfc-editor.org/info/rfc6902/) and [JSON Pointer (RFC 6901)](https://www.rfc-editor.org/info/rfc6901/) as the mutation format for incremental revalidation, instead of inventing my own patch grammar. If something already emits JSON Patch, I want it to work here for free.
+- The AI SDK's partial-object streaming convention as the shape for streamed input, since that's fast becoming the default way partial JSON shows up in the wild for tool-calling. Adding a third competing "partial JSON" convention to the world felt like a bad use of anyone's time, including mine.
+
+Beyond those three, there's no existing spec for "incremental validation session" that I'm aware of, which either means there's something real here, or it means everyone else already figured out why this is a bad idea and didn't write it down. I'd like to find out which. Once the core stabilizes, I want to write a small `SESSION_SPEC.md` of my own, defining Session, Node, ValidationState, and the exact contract `feed()` and `patch()` have to honor. Which is the same move Standard Schema made, just scoped to this one concern.
+
 ### Lore and art
 So caddisfly larvae are aquatic, worm-like insects, and are sometimes also known as the bagworms of the water. This is because the larva of caddisflies share a similar trait where they will construct a case out of materials in their surroundings. However, here are some differences between how the both of them constructs things.
 
