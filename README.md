@@ -41,6 +41,14 @@ If you have been looking at some of my past libraries, you may have noticed that
 
 Beyond those three, there's no existing spec for "incremental validation session" that I'm aware of, which either means there's something real here, or it means everyone else already figured out why this is a bad idea and didn't write it down. I'd like to find out which. Once the core stabilizes, I want to write a small `SESSION_SPEC.md` of my own, defining Session, Node, ValidationState, and the exact contract `feed()` and `patch()` have to honor. Which is the same move Standard Schema made, just scoped to this one concern.
 
+### Open questions I don't have answers to yet
+Writing these down so future-me can't quietly pretend they were decided:
+
+- Do patches have to arrive in order? What happens to a pending node if a later patch invalidates something an earlier one depended on?
+- Which schema node types are allowed to be pending at all? A leaf string probably can't be partially valid. A .refine() across two sibling fields definitely can be, for longer than feels comfortable.
+- Should I write my own streaming JSON tokenizer, or wrap an existing partial-JSON parser and put the schema/session logic on top? My instinct is the tokenizer is a whole separate project and I should not let it eat this one.
+- Is "streaming" and "incremental patching" actually one mechanism, like I'm assuming above, or does trying to force them into the same abstraction make both of them worse? I won't know until there's real code.
+
 ### Lore and art
 So caddisfly larvae are aquatic, worm-like insects, and are sometimes also known as the bagworms of the water. This is because the larva of caddisflies share a similar trait where they will construct a case out of materials in their surroundings. However, here are some differences between how the both of them constructs things.
 
