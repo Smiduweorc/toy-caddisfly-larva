@@ -18,6 +18,11 @@ This also introduces Incremental revalidation, as a side effect, as in that "I h
 
 While they are not exactly the same, I feel that they are just the same problem wearing 2 different hats.
 
+### Further ideas
+- Perhaps this validator could be seen as "built around a session" instead of a function call. You can open a session against a schema and you will feed it events, you then ask it questions about the current state.
+- A validator where `pending` is a real outcome
+- A validator with an explicit dependency graph between schema and nodes, computed once when the schema is built, so a change in one field can be translated into "here is the exact set of other things that might now need rechecking" instead of "check everything again, we are fast enough so it is fine."
+
 ### Lore and art
 So caddisfly larvae are aquatic, worm-like insects, and are sometimes also known as the bagworms of the water. This is because the larva of caddisflies share a similar trait where they will construct a case out of materials in their surroundings. However, here are some differences between how the both of them constructs things.
 
