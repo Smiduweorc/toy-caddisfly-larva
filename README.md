@@ -1,4 +1,6 @@
-# toy-caddisfly-larva
+# [WIP] toy-caddisfly-larva
+This library is still a WIP and of course is nowhere done, I have just decided to make this repo public just because.
+
 A simple validation library for values that constantly move.
 
 ![caddisfly-larva, but with a pineapple](https://raw.githubusercontent.com/Smiduweorc/toy-caddisfly-larva/refs/heads/master/assets/logo.png)
